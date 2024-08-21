@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .admin-dashboard {
+            margin: 20px;
+        }
+
+        .search-filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .submissions-list {
+            border-top: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        .submissions-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .submissions-list th, .submissions-list td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .submissions-list th {
+            background-color: #f2f2f2;
+        }
+
+        .submission-details {
+            margin-top: 20px;
+        }
+
+        .actions button {
+            margin-right: 10px;
+            padding: 10px;
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .actions button:hover {
+            background-color: #4a148c;
+        }
+
+        #feedback {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <h1>Admin Dashboard</h1>
+        <div class="search-filter">
+            <input type="text" id="search" placeholder="Search by name..." oninput="filterSubmissions()">
+            <select id="filter-status" onchange="filterSubmissions()">
+                <option value="all">All</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+            </select>
+        </div>
+        <div class="submissions-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="submissions-table">
+                    <!-- Populated with sample data -->
+                    <tr data-status="pending">
+                        <td>John Doe</td>
+                        <td>Pending</td>
+                        <td><button onclick="viewDetails('John Doe')">View Details</button></td>
+                    </tr>
+                    <tr data-status="approved">
+                        <td>Jane Smith</td>
+                        <td>Approved</td>
+                        <td><button onclick="viewDetails('Jane Smith')">View Details</button></td>
+                    </tr>
+                    <tr data-status="rejected">
+                        <td>Sam Wilson</td>
+                        <td>Rejected</td>
+                        <td><button onclick="viewDetails('Sam Wilson')">View Details</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="submission-details">
+        <h2>Submission Details</h2>
+        <div class="student-info">
+            <!-- Dynamically generated student information and ID card preview -->
+            <div id="student-info"></div>
+        </div>
+        <div class="actions">
+            <button id="approve" onclick="approveSubmission()">Approve</button>
+            <button id="reject" onclick="rejectSubmission()">Reject</button>
+            <button id="update" onclick="updateSubmission()">Update</button>
+            <button id="print" onclick="printSubmission()">Print</button>
+        </div>
+        <textarea id="feedback" placeholder="Provide feedback if rejecting..."></textarea>
+    </div>
+
+    <script>
+        function filterSubmissions() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const filterStatus = document.getElementById('filter-status').value;
+            const rows = document.querySelectorAll('#submissions-table tr');
+
+            rows.forEach(row => {
+                const name = row.cells[0].textContent.toLowerCase();
+                const status = row.getAttribute('data-status');
+
+                if (
+                    (searchInput === '' || name.includes(searchInput)) &&
+                    (filterStatus === 'all' || status === filterStatus)
+                ) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function viewDetails(name) {
+            // Fetch and display submission details based on the name
+            document.getElementById('student-info').innerHTML = `Viewing details for ${name}`;
+        }
+
+        function approveSubmission() {
+            // Approve submission logic
+            alert('Submission approved');
+        }
+
+        function rejectSubmission() {
+            // Reject submission logic with feedback
+            const feedback = document.getElementById('feedback').value;
+            if (feedback) {
+                alert('Submission rejected with feedback: ' + feedback);
+            } else {
+                alert('Please provide feedback for rejection');
+            }
+        }
+
+        function updateSubmission() {
+            // Update submission logic
+            alert('Submission updated');
+        }
+
+        function printSubmission() {
+            // Print submission logic
+            window.print();
+        }
+    </script>
+</body>
+</html>

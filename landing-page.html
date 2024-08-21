@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal</title>
+    <link rel="stylesheet" href="Landing-page-stylesheet.css">
+    
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="bar-data">
+            <ul>
+                <li><a href="#">Start</a></li>
+                <li><a href=# id="Create-ID" >Create ID-card</a></li>
+                <li><a href="#">Session</a></li>
+                <li><a href="#">Records Info</a></li>
+                <li><a href="#">Student Life</a></li>
+                <li><a href="#">Scholarship</a></li>
+                <li><a href="#">Practice</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Career Office</a></li>
+                <li><a href="#">Profi-Lingua</a></li>
+            </ul>
+        </div>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <div class="logo">
+                    <code>&lt;&gt;&lt;/&gt;</code>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search">
+                </div>
+                <div class="user-info">
+                    <!-- <span>Nikita Gulak</span> -->
+                    <img src="./Images/real logo.png" alt="User Avatar">
+                </div>
+            </header>
+            <section class="cards">
+                <div class="card">
+                    <div class="icon">📅</div>
+                    <div class="title">Course Schedule</div>
+                    <div class="description">Available slots and structures</div>
+                </div>
+                <div class="card">
+                    <div class="icon">📎</div>
+                    <div class="title">Materials</div>
+                    <div class="description">List of subjects and materials</div>
+                </div>
+                <div class="card">
+                    <div class="icon">📊</div>
+                    <div class="title">Grades</div>
+                    <div class="description">Check your grades</div>
+                </div>
+                <div class="card">
+                    <div class="icon">✉️</div>
+                    <div class="title">Messages</div>
+                    <div class="description">Check announcements</div>
+                </div>
+                <div class="card">
+                    <div class="icon">💵</div>
+                    <div class="title">Payments</div>
+                    <div class="description">Payments overview</div>
+                </div>
+                <div class="card">
+                    <div class="icon">📑</div>
+                    <div class="title">Petitions and decisions</div>
+                    <div class="description">APEL and Submissions</div>
+                </div>
+                <div class="card">
+                    <div class="icon">📰</div>
+                    <div class="title">News</div>
+                    <div class="description">Check news</div>
+                </div>
+                <div class="card">
+                    <div class="icon">📅</div>
+                    <div class="title">Set up an appointment</div>
+                    <div class="description">Available slots</div>
+                </div>
+                <div class="card">
+                    <div class="icon">📋</div>
+                    <div class="title">Enrollment</div>
+                    <div class="description">Check requirements</div>
+                </div>
+                <div class="card">
+                    <div class="icon">📋</div>
+                    <div class="title">Calender</div>
+                    <div class="description">Check Activities</div>
+                </div>
+            </section>
+        </main>
+    </div>
+ <script type="module">
+
+    function goto(route) {
+    window.location.assign(route);
+}
+
+document.getElementById('Create-ID').addEventListener('click', function() {
+    goto('http://localhost:5173/card.html'); // Replace 'nextPage.html' with the route you want to redirect to
+});
+
+ </script>
+
+
+
+</body>
+</html>

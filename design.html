@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student ID Card</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .id-card {
+            width: 430px;
+            height: 270px;
+            border: 2px solid #4b0082;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .id-card-header, .id-card-footer {
+            background-color: #4b0082;
+            color: #fff;
+            text-align: center;
+            padding: 5px 10px;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .id-card-header img, .id-card-footer img {
+            height: 40px;
+            width: 60px;
+        }
+        .id-card-header h1, .id-card-footer h1 {
+            font-size: 14px;
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .id-card-details {
+            padding: 6px 10px 3px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+        }
+        .id-card-details .info {
+            flex-grow: 1;
+        }
+        .id-card-details span {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .photo-placeholder {
+            width: 80px;
+            height: 100px;
+            border: 2px solid #4b0082;
+            background-color: #f4f4f4;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #4b0082;
+        }
+        .id-card-barcode {
+            margin: 5px 0;
+            text-align: center;
+        }
+        .id-card-barcode img {
+            width: 80%;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="id-card">
+        <div class="id-card-header">
+            <img src="./Images/mologo.jpg" alt="University Logo">
+            <h1>Landmark Metropolitan University<br>Student ID card</h1>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Flag_of_Cameroon.svg" alt="Cameroon Flag">
+        </div>
+        <div class="id-card-details">
+            <div class="photo-placeholder">
+                Photo
+            </div>
+            <div class="info">
+                <span><strong>Name:</strong> ...........................................................</span>
+                <span><strong>Date of Birth:</strong> ...............................................</span>
+                <span><strong>Place of Birth:</strong> ...............................................</span>
+                <span><strong>Program:</strong> .........................................................</span>
+                <span><strong>Valid Until:</strong> .......................................................</span>
+            </div>
+        </div>
+        <div class="id-card-footer">
+            <div class="id-card-barcode">
+                <img src="https://via.placeholder.com/300x30?text=Barcode" alt="Barcode">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

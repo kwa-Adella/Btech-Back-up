@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student ID Card Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-container {
+            margin-right: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4b0082;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #4b0082;
+        }
+        .card-preview {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            border: 2px solid #4b0082;
+        }
+        .card-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid #4b0082;
+        }
+        .card-preview .details {
+            text-align: left;
+        }
+        .btn {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4b0082;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:disabled {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    
+    
+    <div class="container">
+        <div class="form-container">
+            <h2>Your ID Card Details</h2>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob">
+            </div>
+            <div class="form-group">
+                <label for="pob">Place of Birth</label>
+                <input type="text" id="pob" placeholder="Enter your place of birth">
+            </div>
+            <div class="form-group">
+                <label for="program">Program</label>
+                <input type="text" id="program" placeholder="Enter your program">
+            </div>
+            <div class="form-group">
+                <label for="matricule">Matricule</label>
+                <input type="text" id="matricule" placeholder="Enter your matricule">
+            </div>
+            <div class="form-group">
+                <label for="validity">Validity</label>
+                <input type="date" id="validity">
+            </div>
+            <div class="form-group">
+                <label for="photo">Upload Your ID Photo</label>
+                <input type="file" id="photo" accept="image/*">
+            </div>
+            <button class="btn" id="preview-btn">Preview</button>
+        </div>
+        <div class="card-preview">
+            <h3>SCHOOL NAME</h3>
+            <div class="details">
+                <p><strong>Name:</strong> <span id="preview-name"></span></p>
+                <p><strong>Date of Birth:</strong> <span id="preview-dob"></span></p>
+                <p><strong>Place of Birth:</strong> <span id="preview-pob"></span></p>
+                <p><strong>Program:</strong> <span id="preview-program"></span></p>
+                <p><strong>Matricule:</strong> <span id="preview-matricule"></span></p>
+                <p><strong>Validity:</strong> <span id="preview-validity"></span></p>
+            </div>
+            <img id="preview-photo" src="#" alt="ID Photo" style="display: none;">
+            <button class="btn" id="submit-btn" disabled>Submit</button>
+        </div>
+    </div>
+    
+    <script>
+        
+        document.getElementById('preview-btn').addEventListener('click', generateIDCard);
+
+        async function generateIDCard() {
+            const name = document.getElementById('name').value;
+            const dob = document.getElementById('dob').value;
+            const pob = document.getElementById('pob').value;
+            const program = document.getElementById('program').value;
+            const matricule = document.getElementById('matricule').value;
+            const validity = document.getElementById('validity').value;
+            const photoInput = document.getElementById('photo');
+            const photo = photoInput.files[0];
+
+            if (photo) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const previewPhoto = document.getElementById('preview-photo');
+                    previewPhoto.src = e.target.result;
+                    previewPhoto.style.display = 'block';
+                };
+                reader.readAsDataURL(photo);
+            }
+
+            document.getElementById('preview-name').textContent = name;
+            document.getElementById('preview-dob').textContent = dob;
+            document.getElementById('preview-pob').textContent = pob;
+            document.getElementById('preview-program').textContent = program;
+            document.getElementById('preview-matricule').textContent = matricule;
+            document.getElementById('preview-validity').textContent = validity;
+
+            document.getElementById('submit-btn').disabled = false;
+        }
+
+
+    </script>
+
+<script type="module" >
+
+    import { initializeApp } from 'firebase/app';
+    import { getFirestore, addDoc, where, query, getDocs, collection } from 'firebase/firestore';
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+    apiKey: "AIzaSyCv5wO-ydP_OAzXLXccQ7FgN-px9BaLju0",
+    authDomain: "idcpj-72e41.firebaseapp.com",
+    projectId: "idcpj-72e41",
+    storageBucket: "idcpj-72e41.appspot.com",
+    messagingSenderId: "385143722977",
+    appId: "1:385143722977:web:b2f0efb9754facef4b78a0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const userID = collection(db,'idCards');
+
+    async function submitIDCard() {
+    const name = document.getElementById('name').value;
+    const dob = document.getElementById('dob').value;
+    const pob = document.getElementById('pob').value;
+    const program = document.getElementById('program').value;
+    const matricule = document.getElementById('matricule').value;
+    const validity = document.getElementById('validity').value;
+    const photoInput = document.getElementById('photo');
+    const photo = photoInput.files[0];
+
+    const q = query(userID,where('matricule', '==', matricule));
+    const querySnapshot = await getDocs(q);
+    // console.log(querySnapshot.get());
+    if (!querySnapshot.empty) {
+        alert(`ID belonging to user of Matricule ${matricule} already exists`);
+        return;
+    }
+
+    try {
+        await addDoc(userID,{
+            name, dob, pob, program, matricule, validity
+        });
+        alert('Submitted successfully!');
+        sessionStorage.setItem("mat", matricule);
+        
+        window.location.href = "viewCard.html";
+    } catch (error) {
+        alert(`There was an error: ${error}`);
+    }
+    
+    }
+
+
+
+    const sbtn = document.getElementById('submit-btn');
+    sbtn.onclick = async () => {
+        await submitIDCard();
+    }
+</script>
+
+</body>
+
+

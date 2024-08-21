@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student ID Card</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .id-card {
+            width: 430px;
+            height: 270px;
+            border: 2px solid #4b0082;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .id-card-header, .id-card-footer {
+            background-color: #4b0082;
+            color: #fff;
+            text-align: center;
+            padding: 5px 10px;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .id-card-header img, .id-card-footer img {
+            height: 40px;
+            width: 60px;
+        }
+        .id-card-header h1, .id-card-footer h1 {
+            font-size: 14px;
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .id-card-details {
+            padding: 6px 10px 3px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+        }
+        .id-card-details .info {
+            flex-grow: 1;
+        }
+        .id-card-details span {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .photo-placeholder {
+            width: 80px;
+            height: 100px;
+            border: 2px solid #4b0082;
+            background-color: #f4f4f4;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #4b0082;
+        }
+        .id-card-barcode {
+            margin: 10px 10px;
+            text-align: center;
+        }
+        .id-card-barcode img {
+            width: 100%;
+            height: 30px;
+        }
+        .dashed{
+            border-bottom: 1px dashed gray;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="id-card">
+        <div class="id-card-header">
+            <img src="./public/mologo.jpg" alt="University Logo">
+            <h1>Landmark Metropolitan University<br>Student ID card</h1>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Flag_of_Cameroon.svg" alt="Cameroon Flag">
+        </div>
+        <div class="id-card-details">
+            <div class="photo-placeholder">
+                Photo
+            </div>
+            <div class="info">
+                <span><strong>NAME:</strong> <text id="name" class="dashed"></text></span>
+                <span><strong>DATE OF BIRTH:</strong> <text id="dob" class="dashed"></text></span>
+                <span><strong>PLACE OF BIRTH:</strong> <text id="pob" class="dashed"></text></span>
+                <span><strong>PROGRAM:</strong> <text id="program" class="dashed"></text></span>
+                <span><strong>VALID UNTILL:</strong><text id="valid" class="dashed"></text></span>
+            </div>
+        </div>
+        <div class="id-card-footer">
+            <div class="id-card-barcode">
+                <img src="./public/barcode.png" alt="Barcode">
+            </div>
+        </div>
+    </div>
+</body>
+<script type="module" >
+        import {initializeApp} from 'firebase/app';
+        import { getFirestore, addDoc, getDoc,where, query, getDocs, collection } from 'firebase/firestore';
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+        apiKey: "AIzaSyCv5wO-ydP_OAzXLXccQ7FgN-px9BaLju0",
+        authDomain: "idcpj-72e41.firebaseapp.com",
+        projectId: "idcpj-72e41",
+        storageBucket: "idcpj-72e41.appspot.com",
+        messagingSenderId: "385143722977",
+        appId: "1:385143722977:web:b2f0efb9754facef4b78a0"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const userID = collection(db,'idCards');   
+        
+        const name = document.getElementById('name');
+        const dob = document.getElementById('dob');
+        const pob = document.getElementById('pob');
+        const program = document.getElementById('program');
+        const validity = document.getElementById('valid');
+        const photoInput = document.getElementById('photo');
+        // let m = sessionStorage.getItem("mat");LHI-24SWE079
+        let m = sessionStorage.getItem("mat");
+        async function getIdDetailes() {
+            const q = query(userID,where('matricule', '==', m));
+            const querySnapshot = await getDocs(q);
+            // Log the document ID and data
+            try {
+                querySnapshot.forEach((doc) => {
+                console.log(`Document ID: ${doc.id}`);
+                console.log(`Document Data: ${JSON.stringify(doc.data())}`);
+                let dox = doc.data();
+                // Setting all the data gotten from the db... 
+                name.textContent = dox.name;
+                dob.textContent = dox.dob;
+                pob.textContent = dox.pob;
+                program.textContent = dox.program;
+                validity.textContent = dox.validity;
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        await getIdDetailes();
+</script>
+<script>
+    let mat = sessionStorage.getItem("mat");
+    console.log(mat);
+</script>
+</html>
